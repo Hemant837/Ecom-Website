@@ -1,13 +1,12 @@
 import React, { Fragment } from "react";
-import Button from "react-bootstrap/Button";
 import { Navbar, Container, Nav } from "react-bootstrap";
-import Badge from "react-bootstrap/Badge";
-import HeroImage from "../HeroImage/HeroImage";
+import HeroText from "../HeroText/HeroText";
+import Cart from "../../Cart/Cart";
 
 const MyNavbar = () => {
   return (
     <Fragment>
-      <Navbar bg="dark" variant="dark">
+      <Navbar bg="dark" variant="dark" sticky="top">
         <Container>
           <Nav className="mx-auto">
             <Nav.Link href="#home">Home</Nav.Link>
@@ -15,13 +14,11 @@ const MyNavbar = () => {
             <Nav.Link href="#about">About</Nav.Link>
           </Nav>
           <Nav>
-            <Button variant="outline-info">
-              cart <Badge bg="secondary">0</Badge>
-            </Button>
+            <Cart />
           </Nav>
         </Container>
       </Navbar>
-      <HeroImage />
+      <HeroText />
     </Fragment>
   );
 };
