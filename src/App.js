@@ -2,14 +2,15 @@ import React from "react";
 import HeaderNav from "./components/Header/Navbar/Navbar";
 import Products from "./components/Products/Products";
 import Footer from "./components/Footer/Footer";
+import CartProvider from "./store/CartProvider";
 
 function App() {
   return (
-    <div className="App">
+    <CartProvider>
       <HeaderNav />
       <Products />
       <Footer />
-    </div>
+    </CartProvider>
   );
 }
 

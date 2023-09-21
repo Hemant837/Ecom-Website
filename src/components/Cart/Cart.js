@@ -1,42 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Button from "react-bootstrap/Button";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Badge from "react-bootstrap/Badge";
 import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
-
-const cartElements = [
-  {
-    title: "Colors",
-    price: 100,
-    imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%201.png",
-    quantity: 2,
-  },
-  {
-    title: "Black and white Colors",
-    price: 50,
-    imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%202.png",
-    quantity: 3,
-  },
-  {
-    title: "Yellow and Black Colors",
-    price: 70,
-    imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%203.png",
-    quantity: 1,
-  },
-];
+import CartContext from "../../store/cart-context";
 
 const Cart = () => {
+  const itemCtx = useContext(CartContext);
+
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const totalItems = cartElements.reduce((acc, item) => acc + item.quantity, 0);
-  const totalPrice = cartElements.reduce(
+  const totalItems = itemCtx.items.reduce(
+    (acc, item) => acc + item.quantity,
+    0
+  );
+  const totalPrice = itemCtx.items.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
   );
+
+  const handleQuantityChange = (item, event) => {
+    const newQuantity = parseInt(event.target.value, 10);
+    itemCtx.updateItemQuantity(item, newQuantity);
+  };
 
   return (
     <>
@@ -57,11 +47,10 @@ const Cart = () => {
                   <th>Title</th>
                   <th>Price</th>
                   <th>Quantity</th>
-                  <th>Remove</th>
                 </tr>
               </thead>
               <tbody>
-                {cartElements.map((item, index) => (
+                {itemCtx.items.map((item, index) => (
                   <tr key={index}>
                     <td>
                       <img
@@ -73,9 +62,25 @@ const Cart = () => {
                     </td>
                     <td>{item.title}</td>
                     <td>Rs.{item.price}</td>
-                    <td>{item.quantity}</td>
                     <td>
-                      <Button variant="danger">Remove</Button>
+                      <div className="d-flex align-items-center">
+                        <input
+                          type="number"
+                          value={item.quantity}
+                          min="1"
+                          style={{ maxWidth: "40px", marginRight: "8px" }}
+                          onChange={(event) =>
+                            handleQuantityChange(item, event)
+                          }
+                        />
+                        <Button
+                          variant="danger"
+                          className="p-1"
+                          onClick={() => itemCtx.removeItem(item.id)}
+                        >
+                          Remove
+                        </Button>
+                      </div>
                     </td>
                   </tr>
                 ))}
