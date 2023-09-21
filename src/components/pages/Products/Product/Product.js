@@ -4,7 +4,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Image from "react-bootstrap/Image";
 import { Button, Form, InputGroup, FormControl } from "react-bootstrap";
-import CartContext from "../../../store/cart-context";
+import CartContext from "../../../../store/cart-context";
 
 const Product = (props) => {
   const cartCtx = useContext(CartContext);
