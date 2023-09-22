@@ -1,27 +1,33 @@
 import React from "react";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import RootLayout from "./components/pages/Root";
+import { Route } from "react-router-dom";
 import CartProvider from "./store/CartProvider";
+import MyNavbar from "./components/MyNavbar/MyNavbar";
+import Footer from "./components/Footer/Footer";
 import HomePage from "./components/pages/Home";
 import Products from "./components/pages/Products/Products";
 import AboutPage from "./components/pages/About";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <RootLayout />,
-    children: [
-      { path: "/", element: <HomePage /> },
-      { path: "/store", element: <Products /> },
-      { path: "/about", element: <AboutPage /> },
-    ],
-  },
-]);
+import ContactUs from "./components/pages/ContactUs";
 
 function App() {
   return (
     <CartProvider>
-      <RouterProvider router={router} />
+      <MyNavbar />
+      <main>
+      <Route path="/home">
+          <HomePage />
+        </Route>
+        
+        <Route path="/products">
+          <Products />
+        </Route>
+        <Route path="/about">
+          <AboutPage />
+        </Route>
+        <Route path="/contactUs">
+          <ContactUs />
+        </Route>
+      </main>
+      <Footer />
     </CartProvider>
   );
 }
