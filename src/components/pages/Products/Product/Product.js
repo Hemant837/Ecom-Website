@@ -1,9 +1,14 @@
 import React, { useContext, useState } from "react";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Image from "react-bootstrap/Image";
-import { Button, Form, InputGroup, FormControl } from "react-bootstrap";
+import {
+  Container,
+  Button,
+  Row,
+  Col,
+  Form,
+  Image,
+  InputGroup,
+  FormControl,
+} from "react-bootstrap";
 import CartContext from "../../../../store/cart-context";
 
 const Product = (props) => {
@@ -24,28 +29,31 @@ const Product = (props) => {
 
   return (
     <Container>
-      <Row className="justify-content-center">
-        <Col className="mb-4 text-center">
-          <div className="product">
-            <Image src={props.item.imageUrl} rounded fluid />
-            <h4>{props.item.title}</h4>
-            <p>Rs. {props.item.price}</p>
-            <Form>
-              <InputGroup className="justify-content-center">
-                <FormControl
-                  type="number"
-                  value={quantity}
-                  min="1"
-                  onChange={handleQuantityChange}
-                  style={{ maxWidth: "60px" }}
-                  className="text-center"
-                />
-                <Button variant="primary" onClick={handleAddToCart}>
-                  Add to Cart
-                </Button>
-              </InputGroup>
-            </Form>
-          </div>
+      <Row className="justify-content-center align-items-center">
+        <Col xs={4} md={2} className="mb-4 text-center">
+          <Image src={props.item.imageUrl} rounded fluid />
+          </Col>
+        <Col xs={4} md={3}>
+          <h6>{props.item.title}</h6>
+          </Col>
+        <Col xs={4} md={2}>
+          <p>Rs. {props.item.price}</p>
+          </Col>
+        <Col xs={4} md={2}>
+          <Form>
+            <InputGroup>
+              <FormControl
+                type="number"
+                value={quantity}
+                min="1"
+                onChange={handleQuantityChange}
+                style={{ maxWidth: "60px" }}
+              />
+              <Button variant="primary" onClick={handleAddToCart}>
+                Add to Cart
+              </Button>
+            </InputGroup>
+          </Form>
         </Col>
       </Row>
     </Container>
