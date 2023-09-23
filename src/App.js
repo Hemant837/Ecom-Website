@@ -8,6 +8,7 @@ import Products from "./components/pages/Products/Products";
 import AboutPage from "./components/pages/About";
 import ContactUs from "./components/pages/ContactUs";
 import ProductDetails from "./components/pages/Products/ProductDetails";
+import LoginPage from "./components/pages/LoginPage";
 
 function App() {
   return (
@@ -15,13 +16,13 @@ function App() {
       <MyNavbar />
       <main>
         <Switch>
-        <Route exact path="/">
-            <Redirect to="/home"/>
+          <Route exact path="/">
+            <Redirect to="/home" />
           </Route>
           <Route path="/home">
             <HomePage />
           </Route>
-          <Route exact path="/products" >
+          <Route exact path="/products">
             <Products />
           </Route>
           <Route path="/about">
@@ -32,6 +33,9 @@ function App() {
           </Route>
           <Route path="/products/:productId">
             <ProductDetails />
+          </Route>
+          <Route path="/loginPage">
+            <LoginPage />
           </Route>
         </Switch>
       </main>

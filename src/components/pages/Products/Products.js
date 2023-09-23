@@ -33,7 +33,7 @@ const Products = () => {
     <div>
       <h2 style={{ textAlign: "center" }}>Colors</h2>
       {productsArr.map((item) => (
-        <Product item={item} />
+        <Product key={item.id} item={item} />
       ))}
     </div>
   );

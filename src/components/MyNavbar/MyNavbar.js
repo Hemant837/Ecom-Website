@@ -1,10 +1,26 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import HeroText from "./HeroText";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 import { Navbar, Container, Nav } from "react-bootstrap";
+import LoginButton from "../UI/Button/Button";
 import Cart from "../Cart/Cart";
+import CartContext from "../../store/cart-context";
 import "./MyNavbar.css";
+
 const MyNavbar = () => {
+  const ctx = useContext(CartContext);
+
+  const isLoggedIn = ctx.isLoggedIn;
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      const logoutTimer = setTimeout(() => {
+        ctx.logout();
+      }, 300000);
+      return () => clearTimeout(logoutTimer);
+    }
+  }, [isLoggedIn, ctx]);
+
   return (
     <Fragment>
       <Navbar bg="dark" variant="dark" sticky="top">
@@ -16,7 +32,6 @@ const MyNavbar = () => {
                 className={({ isActive }) =>
                   isActive ? "active-link" : undefined
                 }
-                end
               >
                 Home
               </NavLink>
@@ -27,7 +42,6 @@ const MyNavbar = () => {
                 className={({ isActive }) =>
                   isActive ? "active-link" : undefined
                 }
-                end
               >
                 Store
               </NavLink>
@@ -38,7 +52,6 @@ const MyNavbar = () => {
                 className={({ isActive }) =>
                   isActive ? "active-link" : undefined
                 }
-                end
               >
                 About
               </NavLink>
@@ -55,6 +68,9 @@ const MyNavbar = () => {
             </Nav.Link>
           </Nav>
           <Nav>
+            <NavLink to="/loginPage">
+              <LoginButton />
+            </NavLink>
             <Cart />
           </Nav>
         </Container>

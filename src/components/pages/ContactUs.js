@@ -7,7 +7,7 @@ const ContactUs = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
 
   const formSubmitHandler = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
     const userData = {
       name,
@@ -28,14 +28,11 @@ const ContactUs = () => {
       );
 
       if (response.ok) {
-       
         console.log("Form submitted successfully!");
       } else {
-       
         console.error("Form submission failed.");
       }
     } catch (error) {
-     
       console.error("Error:", error);
     }
   };
@@ -46,7 +43,7 @@ const ContactUs = () => {
         <Col md={6} className="mx-auto">
           <h2 className="text-center">Contact Us</h2>
           <Form onSubmit={formSubmitHandler}>
-            <Form.Group controlId="formBasicName">
+            <Form.Group controlId="formBasicName" className="mb-2">
               <Form.Label>Name</Form.Label>
               <Form.Control
                 type="text"
@@ -55,7 +52,7 @@ const ContactUs = () => {
                 onChange={(e) => setName(e.target.value)}
               />
             </Form.Group>
-            <Form.Group controlId="formBasicEmail">
+            <Form.Group controlId="formBasicEmail" className="mb-2">
               <Form.Label>Email address</Form.Label>
               <Form.Control
                 type="email"
@@ -64,7 +61,7 @@ const ContactUs = () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </Form.Group>
-            <Form.Group controlId="formBasicNumber" className="mb-2">
+            <Form.Group controlId="formBasicNumber" className="mb-4">
               <Form.Label>Phone Number</Form.Label>
               <Form.Control
                 type="tel"
