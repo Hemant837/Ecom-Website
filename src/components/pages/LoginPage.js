@@ -9,7 +9,7 @@ const LoginPage = () => {
   const history = useHistory();
   const authCtx = useContext(CartContext);
 
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const [isLoading, setIsLoding] = useState(false);
 
   const switchAuthModeHandler = () => {
@@ -51,7 +51,7 @@ const LoginPage = () => {
       })
       .then((data) => {
         authCtx.login(data.idToken);
-        history.replace("/");
+        history.replace("/products");
       })
       .catch((err) => {
         alert(err.message);
@@ -65,7 +65,7 @@ const LoginPage = () => {
           <h2 className="text-center">Login</h2>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formBasicEmail" className="mb-2">
-              <Form.Label htmlFor="email">Email address</Form.Label>
+              <Form.Label>Email address</Form.Label>
               <Form.Control
                 type="email"
                 placeholder="Enter email"
@@ -74,7 +74,7 @@ const LoginPage = () => {
               />
             </Form.Group>
             <Form.Group controlId="password" className="mb-4">
-              <Form.Label htmlFor="password">Password</Form.Label>
+              <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"
                 placeholder="Password"
@@ -85,7 +85,11 @@ const LoginPage = () => {
             {isLoading && (
               <p className="text-center text-primary">Sending Request...</p>
             )}
-            <Button variant="primary" type="submit">
+            <Button
+              variant="primary"
+              type="submit"
+              onClick={switchAuthModeHandler}
+            >
               Login
             </Button>
           </Form>

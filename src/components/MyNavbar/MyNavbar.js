@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useEffect } from "react";
 import HeroText from "./HeroText";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
-import { Navbar, Container, Nav } from "react-bootstrap";
+import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import LoginButton from "../UI/Button/Button";
 import Cart from "../Cart/Cart";
 import CartContext from "../../store/cart-context";
@@ -11,6 +11,9 @@ const MyNavbar = () => {
   const ctx = useContext(CartContext);
 
   const isLoggedIn = ctx.isLoggedIn;
+  const logoutHandler = () => {
+    ctx.logout();
+  };
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -43,7 +46,7 @@ const MyNavbar = () => {
                   isActive ? "active-link" : undefined
                 }
               >
-                Store
+                Products
               </NavLink>
             </Nav.Link>
             <Nav.Link>
@@ -68,9 +71,20 @@ const MyNavbar = () => {
             </Nav.Link>
           </Nav>
           <Nav>
-            <NavLink to="/loginPage">
-              <LoginButton />
-            </NavLink>
+            {!isLoggedIn && (
+              <NavLink to="/loginPage">
+                <LoginButton />
+              </NavLink>
+            )}
+            {isLoggedIn && (
+              <Button
+                variant="outline-info"
+                className="mx-2"
+                onClick={logoutHandler}
+              >
+                Logout
+              </Button>
+            )}
             <Cart />
           </Nav>
         </Container>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import CartProvider from "./store/CartProvider";
 import MyNavbar from "./components/MyNavbar/MyNavbar";
@@ -9,8 +9,11 @@ import AboutPage from "./components/pages/About";
 import ContactUs from "./components/pages/ContactUs";
 import ProductDetails from "./components/pages/Products/ProductDetails";
 import LoginPage from "./components/pages/LoginPage";
+import CartContext from "./store/cart-context";
 
 function App() {
+  const authCtx = useContext(CartContext);
+
   return (
     <CartProvider>
       <MyNavbar />
@@ -22,8 +25,8 @@ function App() {
           <Route path="/home">
             <HomePage />
           </Route>
-          <Route exact path="/products">
-            <Products />
+          <Route path="/products">
+            {authCtx.isLoggedIn ? <Products /> : <Redirect to="/loginPage" />}
           </Route>
           <Route path="/about">
             <AboutPage />
@@ -34,8 +37,13 @@ function App() {
           <Route path="/products/:productId">
             <ProductDetails />
           </Route>
-          <Route path="/loginPage">
-            <LoginPage />
+          {!authCtx.isLoggedIn && (
+            <Route path="/loginPage">
+              <LoginPage />
+            </Route>
+          )}
+          <Route path="*">
+            <Redirect to="/" />
           </Route>
         </Switch>
       </main>
