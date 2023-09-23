@@ -13,13 +13,14 @@ const MyNavbar = () => {
   const isLoggedIn = ctx.isLoggedIn;
   const logoutHandler = () => {
     ctx.logout();
+    console.log(isLoggedIn);
   };
 
   useEffect(() => {
     if (isLoggedIn) {
       const logoutTimer = setTimeout(() => {
         ctx.logout();
-      }, 300000);
+      }, 30000000);
       return () => clearTimeout(logoutTimer);
     }
   }, [isLoggedIn, ctx]);
@@ -39,16 +40,18 @@ const MyNavbar = () => {
                 Home
               </NavLink>
             </Nav.Link>
-            <Nav.Link>
-              <NavLink
-                to="/products"
-                className={({ isActive }) =>
-                  isActive ? "active-link" : undefined
-                }
-              >
-                Products
-              </NavLink>
-            </Nav.Link>
+            {isLoggedIn && (
+              <Nav.Link>
+                <NavLink
+                  to="/products"
+                  className={({ isActive }) =>
+                    isActive ? "active-link" : undefined
+                  }
+                >
+                  Products
+                </NavLink>
+              </Nav.Link>
+            )}
             <Nav.Link>
               <NavLink
                 to="/about"

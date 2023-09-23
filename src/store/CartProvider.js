@@ -3,49 +3,99 @@ import CartContext from "./cart-context";
 
 const CartProvider = (props) => {
   const [items, setCartItems] = useState([]);
-
-  const addItemToCartHandler = (item) => {
-    setCartItems([...items, item]);
-
-    const updatedItemsArray = [...items];
-    const existingItemIndex = updatedItemsArray.find(
-      (existingItem) => existingItem.id === item.id
-    );
-
-    existingItemIndex
-      ? (existingItemIndex.quantity += Number(item.quantity))
-      : updatedItemsArray.push(item);
-
-    setCartItems(updatedItemsArray);
-  };
-
-  const removeItemFromCartHandler = (id) => {
-    const updatedItemsArray = [...items];
-    const itemIndex = updatedItemsArray.findIndex((item) => item.id === id);
-
-    if (itemIndex !== -1) {
-      // This is the copy of the item
-      const updatedItem = { ...updatedItemsArray[itemIndex] };
-
-      // Here we are Decrement the quantity of the item by 1
-      updatedItem.quantity = updatedItem.quantity - 1;
-
-      if (updatedItem.quantity === 0) {
-        // Here if the quantity reaches zero, remove the item from the array
-        updatedItemsArray.splice(itemIndex, 1);
-      } else {
-        // Updating the item in the array with the updated item
-        updatedItemsArray[itemIndex] = updatedItem;
-      }
-
-      // Updating the state with the new items array
-      setCartItems(updatedItemsArray);
-    }
-  };
   const initialToken = localStorage.getItem("token");
   const [token, setToken] = useState(initialToken);
-
+  const [userEmail, setUserEmail] = useState(null);
   const userIsLoggedIn = !!token;
+
+  const addItemToCartHandler = (item) => {
+    // Check if the item already exists in the cart
+    const existingItemIndex = items.findIndex((cartItem) => cartItem.id === item.id);
+
+    if (existingItemIndex !== -1) {
+      // If the item already exists, update its quantity
+      const updatedItems = [...items];
+      const existingItem = updatedItems[existingItemIndex];
+
+      // You can update the quantity based on your logic here
+      existingItem.quantity += 1;
+
+      setCartItems(updatedItems);
+    } else {
+      // If the item is not in the cart, add it
+      const updatedItems = [...items, item];
+
+      setCartItems(updatedItems);
+    }
+
+    // Now, you can also update the cart data in your Firebase database using fetch
+    const cartData = {
+      items: items, // You may want to send the updated items
+    };
+
+    fetch(`https://ecommerc-website-default-rtdb.asia-southeast1.firebasedatabase.app/cart/${userEmail}.json`, {
+      method: "PATCH",
+      body: JSON.stringify(cartData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error updating cart data");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Handle the response data if needed
+        console.log(data);
+      })
+      .catch((error) => {
+        // Handle errors, such as network issues or Firebase rules violations
+        console.error("Error updating cart data:", error);
+      });
+  };
+  
+  const removeItemFromCartHandler = (id) => {
+    // Find the index of the item to be removed
+    const itemIndex = items.findIndex((cartItem) => cartItem.id === id);
+  
+    if (itemIndex !== -1) {
+      // Create a copy of the items array
+      const updatedItems = [...items];
+  
+      // Get the item to be removed
+      const removedItem = updatedItems[itemIndex];
+  
+      // Decrement the quantity of the item
+      removedItem.quantity -= 1;
+  
+      // If the quantity reaches zero, remove the item from the array
+      if (removedItem.quantity === 0) {
+        updatedItems.splice(itemIndex, 1);
+      }
+  
+      // Update the cart state with the updated items array
+      setCartItems(updatedItems);
+  
+      // Update the cart data in Firebase using fetch
+      fetch(`https://ecommerc-website-default-rtdb.asia-southeast1.firebasedatabase.app/cart/${userEmail}/${id}.json`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Error deleting item from cart");
+          }
+        })
+        .catch((error) => {
+          // Handle errors
+          console.error("Error deleting item from cart:", error);
+        });
+    }
+  };
 
   const loginHandler = (token) => {
     setToken(token);
@@ -54,6 +104,10 @@ const CartProvider = (props) => {
   const logoutHandler = () => {
     setToken(null);
     localStorage.removeItem("token");
+  };
+
+  const setUserEmailHandeler = (email) => {
+    setUserEmail(email);
   };
 
   const cartContext = {
@@ -65,6 +119,8 @@ const CartProvider = (props) => {
     isLoggedIn: userIsLoggedIn,
     login: loginHandler,
     logout: logoutHandler,
+    userEmail: userEmail,
+    setUserEmail: setUserEmailHandeler,
   };
 
   return (

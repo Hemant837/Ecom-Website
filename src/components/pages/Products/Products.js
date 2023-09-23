@@ -30,12 +30,12 @@ const productsArr = [
 
 const Products = () => {
   return (
-    <div>
+    <>
       <h2 style={{ textAlign: "center" }}>Colors</h2>
       {productsArr.map((item) => (
         <Product key={item.id} item={item} />
       ))}
-    </div>
+    </>
   );
 };
 

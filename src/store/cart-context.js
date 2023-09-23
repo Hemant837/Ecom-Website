@@ -9,6 +9,8 @@ const CartContext = React.createContext({
   isLoggedIn: false,
   login: (token) => {},
   logout: () => {},
+  userEmail: null,
+  setUserEmail: () => {},
 });
 
 export default CartContext;

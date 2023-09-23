@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
+import React, { Fragment, useContext } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import CartProvider from "./store/CartProvider";
 import MyNavbar from "./components/MyNavbar/MyNavbar";
 import Footer from "./components/Footer/Footer";
 import HomePage from "./components/pages/Home";
@@ -15,7 +14,7 @@ function App() {
   const authCtx = useContext(CartContext);
 
   return (
-    <CartProvider>
+    <Fragment>
       <MyNavbar />
       <main>
         <Switch>
@@ -25,8 +24,9 @@ function App() {
           <Route path="/home">
             <HomePage />
           </Route>
-          <Route path="/products">
-            {authCtx.isLoggedIn ? <Products /> : <Redirect to="/loginPage" />}
+          <Route path="/products" exact>
+            {authCtx.isLoggedIn && <Products />}
+            {!authCtx.isLoggedIn && <Redirect to="/loginPage" />}
           </Route>
           <Route path="/about">
             <AboutPage />
@@ -48,7 +48,7 @@ function App() {
         </Switch>
       </main>
       <Footer />
-    </CartProvider>
+    </Fragment>
   );
 }
 
