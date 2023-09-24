@@ -78,21 +78,26 @@ const CartProvider = (props) => {
       // Update the cart state with the updated items array
       setCartItems(updatedItems);
   
-      // Update the cart data in Firebase using fetch
-      fetch(`https://ecommerc-website-default-rtdb.asia-southeast1.firebasedatabase.app/cart/${userEmail}/${id}.json`, {
-        method: "DELETE",
+      // Now, you can also update the cart data in your Firebase database using fetch and PATCH method
+      const cartData = {
+        items: updatedItems, // Send the updated items array
+      };
+  
+      fetch(`https://ecommerc-website-default-rtdb.asia-southeast1.firebasedatabase.app/cart/${userEmail}.json`, {
+        method: "PATCH",
+        body: JSON.stringify(cartData),
         headers: {
           "Content-Type": "application/json",
         },
       })
         .then((response) => {
           if (!response.ok) {
-            throw new Error("Error deleting item from cart");
+            throw new Error("Error updating cart data");
           }
         })
         .catch((error) => {
           // Handle errors
-          console.error("Error deleting item from cart:", error);
+          console.error("Error updating cart data:", error);
         });
     }
   };

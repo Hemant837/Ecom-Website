@@ -57,16 +57,19 @@ const LoginPage = () => {
       .then((data) => {
         authCtx.login(data.idToken);
         history.replace("/products");
-        // Now, use fetch for the GET request to Firebase
-        return fetch(
-          `https://ecommerc-website-default-rtdb.asia-southeast1.firebasedatabase.app/cart/${data.email}.json`
-        );
-      })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
+
+        // Only fetch cart data if it's a login
+        if (isLogin) {
+          return fetch(
+            `https://ecommerc-website-default-rtdb.asia-southeast1.firebasedatabase.app/cart/${data.email}.json`
+          ).then((res) => {
+            if (res.ok) {
+              return res.json();
+            } else {
+              throw new Error("Failed to fetch cart data");
+            }
+          });
         }
-        throw new Error("Failed to fetch cart data");
       })
       .then((data) => {
         if (data) {
@@ -112,7 +115,9 @@ const LoginPage = () => {
               <p className="text-center text-primary">Sending Request...</p>
             )}
             <Button variant="primary" onClick={switchAuthModeHandler}>
-              {isLogin ? "Create new account" : "Login with an existing account"}
+              {isLogin
+                ? "Create new account"
+                : "Login with an existing account"}
             </Button>
           </Form>
         </Col>
