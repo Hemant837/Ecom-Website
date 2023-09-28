@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import { Container, Row, Col, Image, Button, Card } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import CartContext from "../../../store/cart-context";
@@ -18,48 +18,51 @@ const ProductDetails = () => {
     });
   };
 
-  const products = [
-    {
-      id: "a1",
-      title: "Colors",
-      price: 100,
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%201.png",
-      description: "Product description goes here.",
-      reviews: ["Great product!", "High quality."],
-      rating: 4.5,
-    },
-    {
-      id: "a2",
-      title: "Black and white Colors",
-      price: 50,
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%202.png",
-      description: "Another product description.",
-      reviews: ["Awesome product!", "Affordable price."],
-      rating: 3.8,
-    },
-    {
-      id: "a3",
-      title: "Yellow and Black Colors",
-      price: 70,
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%203.png",
-      description: "Product description goes here.",
-      reviews: ["Excellent!", "Great value for money."],
-      rating: 4.0,
-    },
-    {
-      id: "a4",
-      title: "Blue Color",
-      price: 100,
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%204.png",
-      description: "Product description goes here.",
-      reviews: ["Very satisfied!", "Beautiful color."],
-      rating: 4.7,
-    },
-  ];
+  const products = useMemo(
+    () => [
+      {
+        id: "a1",
+        title: "Colors",
+        price: 100,
+        imageUrl:
+          "https://prasadyash2411.github.io/ecom-website/img/Album%201.png",
+        description: "Product description goes here.",
+        reviews: ["Great product!", "High quality."],
+        rating: 4.5,
+      },
+      {
+        id: "a2",
+        title: "Black and white Colors",
+        price: 50,
+        imageUrl:
+          "https://prasadyash2411.github.io/ecom-website/img/Album%202.png",
+        description: "Another product description.",
+        reviews: ["Awesome product!", "Affordable price."],
+        rating: 3.8,
+      },
+      {
+        id: "a3",
+        title: "Yellow and Black Colors",
+        price: 70,
+        imageUrl:
+          "https://prasadyash2411.github.io/ecom-website/img/Album%203.png",
+        description: "Product description goes here.",
+        reviews: ["Excellent!", "Great value for money."],
+        rating: 4.0,
+      },
+      {
+        id: "a4",
+        title: "Blue Color",
+        price: 100,
+        imageUrl:
+          "https://prasadyash2411.github.io/ecom-website/img/Album%204.png",
+        description: "Product description goes here.",
+        reviews: ["Very satisfied!", "Beautiful color."],
+        rating: 4.7,
+      },
+    ],
+    []
+  );
 
   useEffect(() => {
     const selectedProduct = products.find((p) => p.id === productId);
