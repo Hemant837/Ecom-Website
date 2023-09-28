@@ -28,13 +28,15 @@ const CartProvider = (props) => {
       setCartItems(updatedItems);
 
       try {
-        const { data } = await axios.patch(
+       await axios.patch(
           `https://ecommerc-website-default-rtdb.asia-southeast1.firebasedatabase.app/${formatEmail(
             userEmail
           )}/cart/${existingItem.firebaseId}.json`,
           { quantity: existingItem.quantity }
         );
+      
       } catch (error) {
+       
         console.log(error);
       }
     } else {
@@ -82,11 +84,12 @@ const CartProvider = (props) => {
       // Update the cart data in Firebase database using fetch and PATCH method
 
       try {
-        const { data } = axios.delete(
+        axios.delete(
           `https://ecommerc-website-default-rtdb.asia-southeast1.firebasedatabase.app/${formatEmail(
             userEmail
           )}/cart/${firebaseId}.json`
         );
+        
       } catch (error) {
         console.log(error);
       }

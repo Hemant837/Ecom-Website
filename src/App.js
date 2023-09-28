@@ -41,10 +41,9 @@ function App() {
           const fetchedData = Object.keys(data).map((newDatas) => {
             return { firebaseId: newDatas, ...data[newDatas] };
           });
-        
+
           authCtx.setCart(fetchedData);
         }
-      
       } catch (error) {
         console.log(error);
       }
