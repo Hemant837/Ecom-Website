@@ -52,6 +52,7 @@ const Cart = () => {
               <tbody>
                 {itemCtx.items.map((item, index) => (
                   <tr key={index}>
+                    {/* {console.log(item)} */}
                     <td>
                       <img
                         src={item.imageUrl}
@@ -76,7 +77,9 @@ const Cart = () => {
                         <Button
                           variant="danger"
                           className="p-1"
-                          onClick={() => itemCtx.removeItem(item.id)}
+                          onClick={() =>
+                            itemCtx.removeItem(item.id, item.firebaseId)
+                          }
                         >
                           Remove
                         </Button>

@@ -55,27 +55,13 @@ const LoginPage = () => {
         }
       })
       .then((data) => {
+        // Update the user's authentication token
+        authCtx.setUserIsLoggedIn();
+        console.log(data);
         authCtx.login(data.idToken);
+        authCtx.setUserEmail(enteredEmail);
+        // Redirect the user to the desired route
         history.replace("/products");
-
-        // Only fetch cart data if it's a login
-        if (isLogin) {
-          return fetch(
-            `https://ecommerc-website-default-rtdb.asia-southeast1.firebasedatabase.app/cart/${data.email}.json`
-          ).then((res) => {
-            if (res.ok) {
-              return res.json();
-            } else {
-              throw new Error("Failed to fetch cart data");
-            }
-          });
-        }
-      })
-      .then((data) => {
-        if (data) {
-          const cartItems = Object.values(data);
-          authCtx.setCartItems(cartItems);
-        }
       })
       .catch((err) => {
         alert(err.message);

@@ -11,6 +11,7 @@ const CartContext = React.createContext({
   logout: () => {},
   userEmail: null,
   setUserEmail: () => {},
+  setCart: () => {}
 });
 
 export default CartContext;

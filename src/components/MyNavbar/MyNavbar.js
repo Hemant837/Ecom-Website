@@ -13,6 +13,7 @@ const MyNavbar = () => {
   const isLoggedIn = ctx.isLoggedIn;
   const logoutHandler = () => {
     ctx.logout();
+    ctx.setCart([]);
     console.log(isLoggedIn);
   };
 
@@ -20,7 +21,7 @@ const MyNavbar = () => {
     if (isLoggedIn) {
       const logoutTimer = setTimeout(() => {
         ctx.logout();
-      }, 30000000);
+      }, 3000000);
       return () => clearTimeout(logoutTimer);
     }
   }, [isLoggedIn, ctx]);
